@@ -1,0 +1,63 @@
+{
+  "name": "cupnet",
+  "version": "2025.8.15",
+  "productName": "CupNet",
+  "description": "An Electron browser with proxy selection and advanced network logging.",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "debug": "electron --inspect-brk .",
+    "pack": "electron-builder --dir",
+    "dist": "electron-builder",
+    "dist:mac": "electron-builder --mac dmg",
+    "dist:win": "electron-builder --win nsis",
+    "dist:linux": "electron-builder --linux AppImage"
+  },
+  "author": "Elvi",
+  "icon": "img.png",
+  "license": "ISC",
+  "devDependencies": {
+    "electron": "^28.0.0",
+    "electron-builder": "^24.13.0"
+  },
+  "dependencies": {
+    "proxy-chain": "^2.5.9"
+  },
+  "build": {
+    "appId": "com.cup.net",
+    "publish": [
+      "github"
+    ],
+    "asar": true,
+    "files": [
+      "**/*",
+      "!dist",
+      "!node_modules/.cache"
+    ],
+    "mac": {
+      "icon": "icons/icon.icns",
+      "identity": null,
+      "hardenedRuntime": false,
+      "gatekeeperAssess": false,
+      "target": [
+        "dmg"
+      ],
+      "artifactName": "MacOS_CupNet-${version}.${ext}"
+    },
+    "win": {
+      "icon": "icons/icon.ico",
+      "target": [
+        "nsis"
+      ],
+      "artifactName": "Windows_CupNet-${version}.${ext}"
+    },
+    "linux": {
+      "icon": "icons/icon.png",
+      "target": [
+        "AppImage"
+      ],
+      "category": "Utility",
+      "artifactName": "Linux_CupNet-${version}.${ext}"
+    }
+  }
+}

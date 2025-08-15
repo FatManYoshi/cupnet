@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self'">
+    <title>CupNet</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div id="browser-toolbar">
+    <button id="back-btn" title="Назад"><</button>
+    <button id="forward-btn" title="Вперед">></button>
+    <button id="reload-btn" title="Перезагрузить">↻</button>
+    
+    <div class="address-bar-container">
+        <input type="text" id="url-input" placeholder="Введите URL и нажмите Enter">
+        <div id="loading-indicator"></div>
+    </div>
+    <div id="log-status-display">Инициализация...</div>
+</div>
+
+<script src="browser-renderer.js"></script>
+</body>
+</html>

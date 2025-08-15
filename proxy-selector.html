@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Proxy Selector</title>
+    <!-- CHANGED: We removed 'self' and will rely on preload.js to do its job.
+         This is the strictest and safest policy. -->
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="proxy-container">
+    <div class="app-header">
+        <img id="app-icon" src="" alt="App Icon" width="128" height="128">
+        <h2 id="app-title">Launch Settings</h2>
+    </div>
+
+    <div class="two-column-layout">
+
+        <div class="column left-column">
+            <fieldset>
+                <legend>Proxy</legend>
+                <div class="form-group">
+                    <label for="new-proxy">Enter new proxy (<code>http://user:pass@host:port</code>):</label>
+                    <input type="text" id="new-proxy" placeholder="Proxy server">
+                </div>
+
+                <div class="form-group">
+                    <label for="saved-proxies">Use saved proxy:</label>
+                    <select id="saved-proxies">
+                        <option value="">-- Select --</option>
+                    </select>
+                </div>
+                
+                <!-- Секция для быстрой смены прокси удалена по запросу пользователя -->
+            </fieldset>
+
+            <fieldset>
+                <legend>Tools</legend>
+                <div class="form-group screenshot-option">
+                    <input type="checkbox" id="auto-screenshot" class="large-checkbox">
+                    <label for="auto-screenshot" class="screenshot-label">
+                        Enable automatic screenshots every 5 seconds
+                    </label>
+                    <p class="help-text">Screenshots will be saved to log and visible in the log viewer</p>
+                </div>
+            </fieldset>
+        </div>
+
+        <!-- Правая колонка -->
+        <div class="column right-column">
+            <fieldset>
+                <legend>Logging</legend>
+                <div class="form-group">
+                    <label for="log-dir-display">Log directory:</label>
+                    <div class="dir-selector">
+                        <span id="log-dir-display">Loading...</span>
+                        <button id="select-log-dir-btn">Select...</button>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <p id="log-dir-full-path">...</p>
+                    <button id="open-log-dir-btn">Open Log Directory</button>
+                </div>
+                <div class="form-group">
+                    <button id="open-log-viewer-btn">Open Log Viewer</button>
+                </div>
+                
+                <div class="form-group">
+                    <label for="url-filter-patterns">URL filter patterns (one per line, wildcards * supported):</label>
+                    <textarea id="url-filter-patterns" rows="4" placeholder="Example: *google.com*&#10;*facebook.com*&#10;*analytics*"></textarea>
+                    <p class="help-text">URLs matching these patterns will be excluded from logging</p>
+                </div>
+            </fieldset>
+        </div>
+    </div>
+
+    <div class="button-group">
+        <button id="start-btn">Start With Proxy</button>
+        <button id="no-proxy-btn">Start Without Proxy</button>
+    </div>
+</div>
+<script src="proxy-selector.js"></script>
+</body>
+</html>

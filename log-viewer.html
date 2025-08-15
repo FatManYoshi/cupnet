@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Security-Policy"
+          content="default-src 'self'; script-src 'self' 'nonce-abc123'; style-src 'self' 'unsafe-inline'; img-src 'self' data:">
+    <title>Network Activity</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div id="log-viewer-container">
+    <!-- Toolbar -->
+    <div id="log-toolbar">
+        <div class="search-container">
+            <input type="text" id="search-input" placeholder="Search...">
+            <button id="clear-search">×</button>
+        </div>
+        <div class="filter-container">
+            <select id="filter-type">
+                <option value="all">All Types</option>
+                <option value="Document">Document</option>
+                <option value="Font">Font</option>
+                <option value="Image">Image</option>
+                <option value="Script">Script</option>
+                <option value="Stylesheet">Stylesheet</option>
+                <option value="Ping">Ping</option>
+                <option value="websocket">WebSocket</option>
+                <option value="websocket_frame">WebSocket Frame</option>
+            </select>
+            <select id="filter-status">
+                <option value="all">All Status</option>
+                <option value="success">Success (2xx)</option>
+                <option value="redirect">Redirect (3xx)</option>
+                <option value="client-error">Client Error (4xx)</option>
+                <option value="server-error">Server Error (5xx)</option>
+            </select>
+            <button id="clear-logs">Clear Logs</button>
+            <button id="open-jsonl-file">Open JSONL File</button>
+        </div>
+    </div>
+
+    <!-- Main content area with split view -->
+    <div id="log-content">
+        <!-- Left sidebar with log list -->
+        <div id="log-list-container">
+            <div id="log-list-header">
+                <div class="log-list-column" data-column="time">Time</div>
+                <div class="log-list-column" data-column="method">Method</div>
+                <div class="log-list-column" data-column="status">Status</div>
+                <div class="log-list-column" data-column="type">Type</div>
+                <div class="log-list-column log-list-path" data-column="path">Path</div>
+            </div>
+            <div id="log-list"></div>
+        </div>
+
+        <!-- Right panel with details -->
+        <div id="log-detail-container">
+            <div id="log-detail-empty">
+                <p>Select an entry from the list on the left to see detailed information</p>
+                <p>For screenshots, the image and additional options will be displayed</p>
+            </div>
+            <div id="log-detail" style="display: none;">
+                <div id="log-detail-header">
+                    <h2 id="log-detail-url"
+                        style="max-height: 65px;overflow:hidden;text-overflow:ellipsis;overflow-y: auto;"></h2>
+                    <div id="log-detail-summary">
+                        <div class="detail-item"><span class="detail-label">Status:</span><span
+                                id="detail-status"></span></div>
+                        <div class="detail-item"><span class="detail-label">Method:</span><span
+                                id="detail-method"></span></div>
+                        <div class="detail-item"><span class="detail-label">Type:</span><span id="detail-type"></span>
+                        </div>
+                        <div class="detail-item"><span class="detail-label">Time:</span><span id="detail-time"></span>
+                        </div>
+                        <div class="detail-item"><span class="detail-label">Duration:</span><span
+                                id="detail-duration"></span></div>
+                        <div class="detail-item"><span class="detail-label">Url:</span> <a id="copy-url"
+                                                                                           title="Copy URL">copy</a>
+                        </div>
+                    </div>
+
+                    <script nonce="abc123">
+                        document.addEventListener('DOMContentLoaded', function () {
+                            const h2 = document.getElementById('log-detail-url');
+                            if (!h2) return;
+
+
+                            let btn = document.getElementById('copy-url');
+                            if (!btn) {
+                                btn = document.createElement('button');
+                                btn.id = 'copy-url';
+                                btn.title = 'Copy URL';
+                                btn.textContent = '⧉';
+                                btn.style.cssText = 'border:none;background:none;cursor:pointer;margin-right:6px;';
+                                h2.parentNode.insertBefore(btn, h2);
+                            }
+
+                            btn.addEventListener('click', async () => {
+                                const full = h2.textContent.trim();
+                                h2.title = full;
+                                try {
+                                    if (navigator.clipboard?.writeText) {
+                                        await navigator.clipboard.writeText(full);
+                                    } else {
+                                        const ta = document.createElement('textarea');
+                                        ta.value = full;
+                                        document.body.appendChild(ta);
+                                        ta.select();
+                                        document.execCommand('copy');
+                                        document.body.removeChild(ta);
+                                    }
+                                    const prev = btn.textContent;
+                                    btn.textContent = '✓';
+                                    setTimeout(() => btn.textContent = prev, 900);
+                                } catch {
+                                    const prev = btn.textContent;
+                                    btn.textContent = '⚠';
+                                    setTimeout(() => btn.textContent = prev, 1200);
+                                }
+                            });
+                        });
+                    </script>
+
+                </div>
+                <div id="log-detail-tabs">
+                    <button class="tab-button active" data-tab="headers">Headers</button>
+                    <button class="tab-button" data-tab="request">Request</button>
+                    <button class="tab-button" data-tab="response">Response</button>
+                </div>
+                <div id="log-detail-content">
+                    <div class="tab-content active" id="tab-headers">
+                        <div class="headers-section">
+                            <h3>Request Headers</h3>
+                            <div id="request-headers" class="headers-list"></div>
+                        </div>
+                        <div class="headers-section">
+                            <h3>Response Headers</h3>
+                            <div id="response-headers" class="headers-list"></div>
+                        </div>
+                    </div>
+                    <div class="tab-content" id="tab-request">
+                        <pre id="request-body"></pre>
+                    </div>
+                    <div class="tab-content" id="tab-response">
+                        <pre id="response-body"></pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="log-viewer-renderer.js"></script>
+</body>
+</html>
