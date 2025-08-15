@@ -24,7 +24,28 @@ CupNet is a powerful Electron-based desktop application designed for comprehensi
 - npm (v6.0.0 or higher)
 - Electron (v13.0.0 or higher)
 
-### Setup
+### 1. Install from Release (no build needed)
+
+> Auto-update is **disabled**. Download the latest installers from the **Releases** page and install manually.
+
+#### macOS
+1. Download `MacOS_CupNet-2025.8.15.dmg` from **Releases**.
+2. Open the `.dmg` and drag **CupNet** to **Applications**.
+3. If Gatekeeper warns, right-click the app → **Open**.
+
+#### Windows
+1. Download `Windows_CupNet-2025.8.15.exe`.
+2. Run the installer; if SmartScreen warns, choose **More info → Run anyway**.
+
+#### Linux (AppImage)
+1. Download `Linux_CupNet-2025.8.15.AppImage`.
+2. Make it executable and run:
+   ```bash
+   chmod +x Linux_CupNet-2025.8.15.AppImage
+   ./Linux_CupNet-2025.8.15.AppImage
+   
+
+### 2. Setup (build needed)
 
 1. Clone the repository:
    ```bash
@@ -161,5 +182,5 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 
 ## Contact
 
-Project Maintainer - OG8070
-GitHub: [https://github.com/og8070/cupnet](https://github.com/og8070/cupnet)
+Project Maintainer - elv1bro
+GitHub: [https://github.com/elv1bro/cupnet](https://github.com/elv1bro/cupnet)
